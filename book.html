@@ -1,9 +1,8 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="myApp">
 <head>
     <title>Bookshop - Your Online Bookshop</title>
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-
 </head>
 <body>
 
@@ -12,7 +11,6 @@
         <h2>Your Online Bookshop</h2>
         <input type="search" ng-model="criteria">
         <ul class="unstyled">
-
             <li ng-repeat="book in books | filter:criteria | orderBy :'name'">
                 <span>{{book.name}} written by {{book.author | uppercase}}</span>
             </li>
@@ -21,7 +19,17 @@
 
 
 <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
-<script type="text/javascript" src="app.js"></script>
-
+<!--<script type="text/javascript" src="app.js"></script>-->
+    <script type="text/javascript">
+function BookCtrl($scope)
+{
+    $scope.books = [
+        {'name': 'Effective Java', 'author': 'Joshua Bloch'},
+        {'name': 'Year without Pants', 'author': 'Scott Berkun'},
+        {'name': 'Confessions of public speaker', 'author': 'Scott Berkun'},
+        {'name': 'JavaScript Good Parts', 'author': 'Douglas Crockford'}
+    ]
+}
+</script>
 </body>
 </html>
