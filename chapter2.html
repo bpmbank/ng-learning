@@ -1,0 +1,56 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>Bookshop - Your Online Bookshop</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+</head>
+<body>
+<div>
+<input ng-model="name" type="text" placeholder="Your name">
+<h1>Hello {{name}}</h1>
+</div>
+<div ng-controller="CityController" >
+    <select ng-model="city" ng-options="city.name for city in cities">
+    <option value="">Choose City</option></select>
+    Best City:{{city.name}}
+</div>
+
+<div my-directive
+    my-url="http://google.com"
+    my-link-text="click me to go to Google">
+
+</div>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script>
+
+    angular.module('myApp',[])
+            .controller('CityController',function($scope){
+                $scope.cities = [
+                    {name:'Seattle'},
+                    {name:'San Francisco'},
+                    {name:'Chicago'},
+                    {name:'New York'},
+                    {name:'Boston'}
+                ];
+            });
+    angular.module('myApp',[])
+            .directive('myDirective',function(){
+                return {
+                    restrict:'A',
+                    replace:true,
+                    template:'<a href="{{ myUrl}}">{{ myLinkText }}</a>'
+                };
+            });
+    angular.module('myApp')
+            .factory('myService',function(){
+               return {
+                   'username':'auser'
+               };
+
+            });
+    angular.module('myApp')
+            .factory('githubService',['$http',])
+</script>
+</body>
+</html>

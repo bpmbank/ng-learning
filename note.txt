@@ -1,0 +1,26 @@
+五种方法创建服务:
+factory()
+service()
+constant()
+value()
+provider()
+
+angular.module('myApp')
+.factory('myService',function(){
+     return {
+     'username':'auser'
+     };
+});
+
+指令:
+angular.module('myApp',[])
+.directive('myDirective',function(){
+return {
+   restrict:'E',
+   template:'<a href="http://google.com">
+   Click me to go to Google</a>'
+   }
+   });
+<my-directive></my-directive>
+<div my-directive></div>
+<div class="my-directive"></div>
