@@ -5,6 +5,45 @@ constant()
 value()
 provider()
 
+Service vs Factory
+function factory(name,factoryFn){
+return provider(name,{$get:factoryFn});
+}
+function service(name,constructor){
+return factory(name,['$injector',function($injector){
+ return $injector.instantiate(constructor);
+}
+});
+}
+$injector.instantiate:
+
+var app=angular.module('app',[])
+app.service('helloWorldService',function(){
+this.hello = function(){return "hello";
+};
+});
+
+app.factory('helloWorldFactory',function(){
+   return {
+   hello:function(){
+   return "Hello World";}
+   }
+}
+});
+所有的providers都是单例
+
+添加路由
+angular.module('myApp',[]).
+config(['$routeProvider',function($routeProvider){
+$routeProvider.when('/',
+{
+controller:'HomeController',
+template:'<h2>We are home</h2>'
+})
+.otherwise({redirectTo:'/'});
+}]);
+
+
 angular.module('myApp')
 .factory('myService',function(){
      return {
@@ -12,7 +51,16 @@ angular.module('myApp')
      };
 });
 
-指令:
+依赖注入
+var app = angular.module('app',[]);
+app.controller('MainCtrl',function($scope,$timeout){
+$timeout(function(){
+console.log($scope);
+},1000);
+});
+app.controller("MainCtrl1",function(e,t){t(function(){console.log(e)},1e3)})
+
+指令(directive):
 angular.module('myApp',[])
 .directive('myDirective',function(){
 return {
@@ -24,3 +72,6 @@ return {
 <my-directive></my-directive>
 <div my-directive></div>
 <div class="my-directive"></div>
+
+
+部分参考http://blog.jobbole.com/78946/
