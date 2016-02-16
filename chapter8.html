@@ -1,0 +1,81 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>Bookshop - Your Online Bookshop</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<p>We can access: {{ rootProperty }}</p>
+<div ng-controller="ParentController">
+    <p>We can access: {{ rootProperty }}
+        and {{ parentProperty }}</p>
+    <div ng-controller="ChildController">
+        <p>
+            We can access:
+            {{ rootProperty }} and
+            {{ parentProperty }} and
+            {{ childProperty }}
+        </p>
+        <p>{{ fullSentenceFromChild }}</p>
+    </div>
+</div>
+<div>{{ ['Ari','Lerner','Likes','To','Eat','Pizza'] | filter:'e' }}</div>
+<form name="form" novalidate>
+    <label name="email">Your email</label>
+    <input type="email" name="email" ng-model="email" placeholder="Email Address">
+</form>
+<!--<my-directive></my-directive>-->
+<!--<div my-directive my-url="http://google.com" my-link-text="Click me to go to Google"></div>-->
+<div my-directive
+my-url="http://google.com"
+my-link-text="Click me to go to Google"></div>
+
+<!--<div class="my-directive"></div>-->
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script>
+    var app = angular.module('myApp', []);
+    app.run(function ($rootScope) {
+// 使用.run访问$rootScope
+                $rootScope.rootProperty = 'root scope';
+            })
+            .controller('ParentController', function ($scope) {
+// 使用.controller访问`ng-controller`内部的属性
+// 在DOM忽略的$scope中，根据当前控制器进行推断
+                $scope.parentProperty = 'parent scope';
+            })
+            .controller('ChildController', function ($scope) {
+                $scope.childProperty = 'child scope';
+// 同在DOM中一样，我们可以通过当前$scope直接访问原型中的任意属性
+                $scope.fullSentenceFromChild = 'Same $scope: We can access: ' +
+                        $scope.rootProperty + ' and ' +
+                        $scope.parentProperty + ' and ' +
+                        $scope.childProperty
+            });
+
+    app.controller('DemoController', ['$scope', '$filter', function ($scope, $filter) {
+        $scope.name = $filter('lowercase')('Ari');
+    }]);
+    angular.module('myApp.filters', [])
+            .filter('capitalize', function () {
+                return function (input) {
+                    if (input) {
+                        return input[0].toUpperCase() + input.slice(1);
+                    }
+                }
+            });
+    app.directive('myDirective', function () {
+        return {
+            restrict: 'EACM', //E(元素),A(属性，默认值),C(类名),M(注释)
+            replace: true,
+            scope: {
+                myUrl: '@', //绑定策略
+                myLinkText: '@' //绑定策略
+            },
+            template: '<a href="{{myUrl}}">' +
+            '{{myLinkText}}</a>'
+        };
+    });
+
+</script>
+</body>
+</html>

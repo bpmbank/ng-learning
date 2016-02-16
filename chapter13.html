@@ -1,0 +1,49 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>Bookshop - Your Online Bookshop</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular-route.min.js"></script>
+
+<script>
+
+    function SomeClass(greeter) {
+        this.greeter = greeter;
+    }
+    SomeClass.prototype.greetname = function (name) {
+        this.greeter.greet(name);
+    }
+    angular.module('myApp',[])
+            .factory('greeter',function(){
+                return {
+                    greet:function(msg){alert(msg);}
+                }
+            })
+            .controller('MyController',
+            function($scope,greeter){
+                $scope.sayHello=function(){
+                    greeter.greet("Hello!");
+                }
+            });
+     var aControllerFactory = function aController($scope,greeter){
+         console.log("LOADED controller",greeter);
+     };
+    aControllerFactory.$inject=['$scope','greeter'];
+
+    angular.module('myApp',[])
+            .controller('MyController',aControllerFactory)
+            .factory('greeter',greeterService);
+
+    var injector = angular.injector(['ng','myApp']),controller = injector.get("$controller"),
+            rootScope=injector.get('$rootScope'),
+            newScope = rootScope.$new();
+    controller('MyController',{$scope:newScope});
+
+</script>
+</body>
+</html>

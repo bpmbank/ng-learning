@@ -1,0 +1,80 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>Bookshop - Your Online Bookshop</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div>
+    <input ng-model="name" type="text" placeholder="Your name">
+    <h1>Hello {{name}}</h1>
+</div>
+<!--<div ng-controller="CityController" >-->
+<!--<select ng-model="city" ng-options="city.name for city in cities">-->
+<!--<option value="">Choose City</option></select>-->
+<!--Best City:{{city.name}}-->
+<!--</div>-->
+
+<div ng-controller="MyController">
+    <h1>Hello {{ clock }}</h1>
+</div>
+<div ng-controller="MyController2">
+    <h1>Hello2 {{clock.now}}</h1>
+</div>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script>
+    angular.module('myApp', [])
+            .factory('myFactory', function () {
+                var service = {};
+                return service;
+
+            })
+            .directive("myDirective",function(){
+                return {
+                    template:'<button>Click me</button>'
+                }
+            });
+angular.module('myApp',[])
+        .config(function($provide,$compileProvider){
+            $provide.factory('myFactory',function(){
+                var service={};
+                return service;
+            });
+            $compileProvider.directive('myDirective',function(){
+                return {
+                    template:'<button>Click me</button>'
+                };
+            });
+        });
+    angular.module('myApp',[])
+            .config(function($routeProvider){
+                $routeProvider.when('/',{
+                    controller:'WelcomeController',
+                    template:'views/welcome.html'
+                });
+            })
+            .config(function(ConnectionProvider){
+                ConnectionProvider.setApiKey('SOME_API_KEY');
+            });
+    angular.module('myApp',[])
+            .run(function($rootScope,AuthService){
+                $rootScope.$on('$routeChangeStart',function(evt,next,current){
+                    if (!AuthService.userLoggedIn()){
+                        if (next.templateUrl=="login.html"){
+
+                        }
+                        else {
+                            $location.path('/login');
+                        }
+                    }
+                });
+            });
+
+    angular.module('myApp', [])
+            .config(function ($provide) {
+
+            });
+
+</script>
+</body>
+</html>

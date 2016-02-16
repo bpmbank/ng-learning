@@ -1,9 +1,17 @@
-五种方法创建服务:
-factory()
-service()
-constant()
-value()
-provider()
+五种方法与服务相关:
+factory() --创建服务
+service() --创建服务
+provider() --创建服务，更好的可扩展性与config一起使用
+constant() --  创建服务实例，config可访问
+value()--创建服务实例，config不可访问
+decorator--装饰器，中间件和拦截器的作用
+
+
+x2js库
+bower install x2js
+
+xml table js
+angular 中的resolve理解
 
 Service vs Factory
 function factory(name,factoryFn){
@@ -30,8 +38,13 @@ app.factory('helloWorldFactory',function(){
    }
 }
 });
-所有的providers都是单例
 
+依赖注入方式：
+在内部创建依赖
+通过全局变量进行引用
+在需要的地方通过参数进行传递
+
+所有的providers都是单例
 添加路由
 angular.module('myApp',[]).
 config(['$routeProvider',function($routeProvider){
@@ -72,6 +85,85 @@ return {
 <my-directive></my-directive>
 <div my-directive></div>
 <div class="my-directive"></div>
+
+var app = angular.module('myApp', []); //‘myApp’是你在HTML中应用程序的名字，
+app.service('serviceName',function($scope){
+//TDD,写你想要的程序代码
+//定义变量
+this.name = ‘张三’; //这个就是在service定义的变量，用this，相当于var。这个是全局变量
+//定义函数
+this.functionName = function(){
+/*
+*这里怎么做
+*/
+};
+});
+
+//任何地方都可以调用service中的函数和变量,只要将service名称引用就行，像这样
+app.controller('controllerName',function($scope,serviceName){
+$scope.name = serviceName.name;
+console.log($scope.name); //输出值是‘张三’;
+});
+
+<div ng-app>
+<input ng-model="name" type="text" placeholder="请输入姓名">
+<p>我的姓名:{{name}}</p>
+</div>
+
+<div ng-app>
+<input ng-model="age" type="number" placeholder="请输入年龄">
+<p>我的年龄:{{age}}</p>
+</div>
+
+著作权归作者所有。
+商业转载请联系作者获得授权，非商业转载请注明出处。
+作者：夏hf
+链接：https://www.zhihu.com/question/34972098/answer/61120284
+来源：知乎
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>sample</title>
+	<script src="angular.js"></script>
+</head>
+<body>
+	<div id="A1" ng-app="app1">
+		<input ng-model="name" type="text" placeholder="请输入姓名">
+		<p>我的姓名： {{name}}</p>
+	</div>
+
+	<div id="A2" ng-app="app2">
+		<input ng-model="age" type="number" placeholder="请输入年龄">
+		<p>我的年龄: {{age}}</p>
+	</div>
+
+	<script type="text/javascript">
+		var app1 = angular.module("app1",[]);
+		var app2 = angular.module("app2",[]);
+
+		angular.bootstrap(document.getElementById("A2"),['app2']);
+	</script>
+</body>
+</html>
+定义一个指令（directive）有哪些不同的方法？
+
+chapter9:
+ng-show/ng-hide
+ng-change
+ng-form
+ng-valid
+ng-invalid
+ng-pristion
+ng-dirty
+ng-submit
+ng-click
+ng-select
+ng-class
+ng-attr-(suffix)
+
+17章 promise细节介绍
 
 
 部分参考http://blog.jobbole.com/78946/

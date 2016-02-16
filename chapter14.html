@@ -1,0 +1,133 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>Bookshop - Your Online Bookshop</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div ng-controller="ServiceController">
+    <label for="username">
+        Type in a Github username
+    </label>
+    <input type="text" ng-model="username" placeholder="Enter a Github username">
+    <ul>
+        <li ng-repeat="event in events">
+            {{event.actor.login}} {{event.repo.name}}
+
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular-route.min.js"></script>
+
+<script>
+
+    angular.module('myApp', [])
+            .factory('UserService', function ($http) {
+                var current_user;
+                return {
+                    getCurrentUser: function () {
+                        return current_user;
+                    },
+                    setCurrentUser: function (user) {
+                        current_user = user;
+                    }
+                }
+            });
+    //factory method to create service
+    angular.module('myApp')
+            .factory('myService', function () {
+                return {'username': 'auser'};
+            });
+    //    angular.module('myApp')
+    //            .factory('githubService',['$http',function($http){
+    //                return {
+    //                    getUserEvents:function(username{
+    //
+    //                    })
+    //                }
+    //            }]);
+    //service method to create service
+    var Person = function ($http) {
+        this.getName = function () {
+            return $http({method: 'GET', url: '/api/user'});
+        };
+    };
+    angular.service('personService', Person);
+    //provider method to create service
+    angular.module('myApp')
+            .factory('myService', function () {
+                return {
+                    'username': 'auser'
+                };
+            })
+            .provider('myService', {
+                $get: function () {
+                    return {'username': 'auser'};
+                }
+            });
+    //constant()返回一个注册后的服务实例
+    angular.module('myApp').constant('apiKey', '123123123')
+    angular.module('myApp')
+            .controller('MyController', function ($scope, apiKey) {
+                $scope.apiKey = apiKey;
+            });
+
+    angular.module('myApp.service', [])
+            .factory('githubService', function ($http) {
+                var githubUrl = 'https://api.github.com';
+                var runUserRequest = function (username, path) {
+                    return $http({
+                        method: 'JSONP',
+                        url: githubUrl + '/users/' + username + '/' + path + '?callback=JSON_CALLBACK'
+                    });
+                };
+                return {
+                    events: function (username) {
+                        return runUserRequest(username, 'events');
+                    }
+                }
+            });
+    app.module('myApp', ['myApp.service'])
+            .controller('ServiceController',
+                    function ($scope, githubService) {
+                        $scope.$watch('username', function (newUsername) {
+                            githubService.events(newUsername).success(function (data, status, headers) {
+                                $scope.events = data.data;
+                            })
+                        })
+//                        $scope.events = githubService.events('auser');
+                    });
+    angular.module('myApp', [])
+            .factory('GithubService', [
+                '$q', '$http',
+                function ($q, $http) {
+                    var getPullRequests = function () {
+                        var deferred = $q.defer();
+// 从Github获取打开的angularjs pull请求列表
+                        $http.get('https://api.github.com/repos/angular/angular.js/pulls')
+                                .success(function (data) {
+                                    deferred.resolve(data);
+                                })
+                                .error(function (reason) {
+                                    deferred.reject(reason);
+                                })
+                        return deferred.promise;
+                    }
+                    return { // 返回工厂对象
+                        getPullRequests: getPullRequests
+                    };
+                }]);
+    GithubService.then(function (data) {
+        var events = [];
+        for (var i = 0; i < data.length; i++) {
+            events.push(data[i].events);
+        }
+        return events;
+    }).then(function (events) {
+        $scope.events = events;
+    })
+</script>
+</body>
+</html>

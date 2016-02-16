@@ -1,0 +1,104 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>Bookshop - Your Online Bookshop</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div id="emailEditor">
+    <input ng-model="to"
+           type="email"
+           placeholder="Recipient"/>
+    <textarea ng-model="emailBody"></textarea>
+</div>
+<div id="emailPreview">
+    <pre>__ previewText __</pre>
+</div>
+<div ng-controller="MyController">
+<input ng-model="to"
+type="email"
+placeholder="Recipient" />
+<textarea ng-model="emailBody"></textarea>
+<pre>{{ previewText }}</pre>
+</div>
+<div class="filter">
+    {{ today|date:'medium'}}
+</div>
+<!--<h1>Hello {{ name }}</h1>-->
+
+<!--<div ng-controller="FirstController">-->
+<!--<h4>The simplest adding machine ever</h4>-->
+<!--<button ng-click="add(1)" class="button">Add</button>-->
+<!--<a ng-click="subtract(1)" class="button alert">Subtract</a>-->
+<!--<h4>Current count:{{counter}}</h4>-->
+<!--</div>-->
+<!--<div ng-controller="ParentController">-->
+<!--<div ng-controller="ChildController">-->
+<!--<a ng-click="sayHello()">Say hello</a>-->
+<!--</div>-->
+<!--{{person}}-->
+<!--</div>-->
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script>
+    angular.module('emailParser', [])
+            .config(['$interpolateProvider', function ($interpolateProvider) {
+                $interpolateProvider.startSymbol('__');
+                $interpolateProvider.endSymbol('__');
+            }])
+            .factory('EmailParser', ['$interpolate', function ($interpolate) {
+// 处理解析的服务
+                return {
+                    parse: function (text, context) {
+                        var template = $interpolate(text);
+                        return template(context);
+                    }
+                };
+            }]);
+
+    angular.module('myApp', [])
+            .controller('MyController', function ($scope, $interpolate) {
+// 设置监听
+                $scope.$watch('emailBody', function (body) {
+                    if (body) {
+                        var template = $interpolate(body);
+                        $scope.previewText =
+                                template({to: $scope.to});
+                    }
+                });
+            });
+
+
+    //    function FirstController($scope){
+    //        $scope.message = "hello";
+    //    }
+    var app = angular.module("app", []);
+    app.controller("ParentController", function ($scope) {
+        $scope.person = {greeted: false};
+    });
+    app.controller("ChildController", function ($scope) {
+        $scope.sayHello = function () {
+            $scope.person.name = "Ari Lerner";
+        };
+    });
+    app.controller("MyController", function ($scope, UserSrv) {
+        $scope.onLogin = function (user) {
+            UserSrv.runLogin(user);
+        }
+    });
+    app.run(function ($rootScope) {
+        $rootScope.name = "World";
+    });
+    app.controller("FirstController", function ($scope) {
+        $scope.message = "hello";
+        $scope.counter = 0;
+        $scope.add = function (amount) {
+            $scope.counter += amount;
+        }
+        $scope.subtract = function (amount) {
+            $scope.counter -= amount;
+        }
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>Bookshop - Your Online Bookshop</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div>{{ ['Ari','Lerner','Likes','To','Eat','Pizza'] | filter:'e' }}</div>
+<form name="form" novalidate>
+    <label name="email">Your email</label>
+    <input type="email" name="email" ng-model="email" placeholder="Email Address">
+</form>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script>
+var app=angular.module('myApp',[]);
+app.controller('DemoController',['$scope','$filter',function($scope,$filter) {
+    $scope.name=$filter('lowercase')('Ari');
+}]);
+app.module('myApp.filters',[])
+        .filter('capitalize',function(){
+            return function(input){
+                if (input){
+                    return input[0].toUpperCase()+input.slice(1);
+                }
+            }
+        });
+
+</script>
+</body>
+</html>
