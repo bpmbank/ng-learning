@@ -64,27 +64,35 @@ WordApp.Quit();
 catch(e){}
 return false;
 }
-function wordlean(){
+function wordlean() {
     //创建ActiveX控件
     var wrd = new ActiveXObject("Word.Application");
     //打开服务器word文档
-    wrd.Documents.Open(document.location.href.substring(0,document.location.href.lastIndexOf('/')+1)+'');
+    wrd.Documents.Open(document.location.href.substring(0, document.location.href.lastIndexOf('/') + 1) + '');
 
     //在段落指定位置写入部门名称和日期
-    var theRange = wrd.ActiveDocument.Range(wrd.ActiveDocument.Paragraphs(2).Range.Start+3,wrd.ActivetheRange.text="技术中心");
+    var theRange = wrd.ActiveDocument.Range(wrd.ActiveDocument.Paragraphs(2).Range.Start + 3, wrd.ActivetheRange.text = "技术中心");
 
     //检索到word中的表格,并在指定单元格里写入内容
-    var theRange = wrd.ActiveXDocument.Tables(1).Rows(i+2).Cells(1).Range;
+    var theRange = wrd.ActiveXDocument.Tables(1).Rows(i + 2).Cells(1).Range;
     theRange.Text = dataTable.rows(i).cells(0).innerText;
 
     //自动根据记录数量建立空行再写入内容
-    if (i>0)wrd.Selection.InsertRowsBelow();
+    if (i > 0)wrd.Selection.InsertRowsBelow();
 
     //另存为本地文件
-    Wrd.ActiveDocument.SaveAs('周报'+new Date().getYear()+new DAte().getMonth()+new Date().getDAte()+'.doc');
+    Wrd.ActiveDocument.SaveAs('周报' + new Date().getYear() + new DAte().getMonth() + new Date().getDAte() + '.doc');
     wrd.options.SendMailAttach = true;
 
     wrd.ActiveDocument.SendMail();
+}
+
+       $("#filterName").keyup(function(){
+          $("table tbody tr")
+                    .hide()
+                    .filter(":contains('"+( $(this).val() )+"')")
+                    .show();
+       }).keyup();
 
 
 
