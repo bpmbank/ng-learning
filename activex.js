@@ -1,13 +1,12 @@
-function read_excel(){
-    var filePath="D:\abcd9.com.cls";
+function read_excel() {
+    var filePath = "D:\abcd9.com.cls";
     var sheet_id;//读取第二个表
-    var row_start=3;//从第三行开始读取
-    var tempStr="";
-    try
-    {
+    var row_start = 3;//从第三行开始读取
+    var tempStr = "";
+    try {
         var oXL = new ActiveXObject("Excel.Application");
     }
-    catch(err){
+    catch (err) {
         alert(err);
         return false;
     }
@@ -16,53 +15,52 @@ function read_excel(){
     var oSheet = oWB.ActiveSheet;
     var colcount = oXL.Worksheets(sheet_id).UsedRange.Cells.Rows.Count;
 
-    for(var i=row_start;i<=colcount;i++){
-        if(typeof(oSheet.Cells(i,8).value)=='date'){
-            d=new Date(oSheet.cells(i,8).value);
-            temp_time= d.getFullYear()+"-"+(d.getMonth()+1)+"-"+ d.getDate();
+    for (var i = row_start; i <= colcount; i++) {
+        if (typeof(oSheet.Cells(i, 8).value) == 'date') {
+            d = new Date(oSheet.cells(i, 8).value);
+            temp_time = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
         }
         else
-            temp_time = $.trim(oSheet.Cells(i,7).value.toString());
-        tempStr+=($.trim(oSheet.Cells(i,2).value)+" "+ $.trim(oSheet.Cells(i,4).value)+" "+ $.trim(oSheet.Cells(i,6).value.toSTring())+" "+temp_time+"\n");
+            temp_time = $.trim(oSheet.Cells(i, 7).value.toString());
+        tempStr += ($.trim(oSheet.Cells(i, 2).value) + " " + $.trim(oSheet.Cells(i, 4).value) + " " + $.trim(oSheet.Cells(i, 6).value.toSTring()) + " " + temp_time + "\n");
         //读取2,4,6,8列内容
     }
     return tempStr;
     oXL.Quit();
     CollectGarbage();
 }
-function OpenFile()
-{
-try
-{
-FileDialog.CancelError=true;
-FileDialog.Filter="Word模板|*.doc|Word模板|*.dot";
-FileDialog.ShowOpen();
-var WordApp=new ActiveXObject("Word.Application");
-WordApp.Application.Visible=false;
-var Doc=WordApp.Documents.Open(FileDialog.filename);
-Doc.Activate();
-Doc.Parent.Options.InsertedTextColor=4;
-Doc.Parent.Options.InsertedTextMark=2;
-Doc.Parent.Options.DeletedTextColor=4;
-Doc.Parent.Options.DeletedTextMark=1;
-Doc.TrackRevisions=true;
-Doc.PrintRevisions=true;
-Doc.ShowRevisions=true;
-Doc.Application.UserName="";
-var Range=Doc.Range();
-Range.Select();
-var Selection=WordApp.Selection;
-Selection.Copy();
-App.focus();
-document.execCommand("Paste");
-App.focus();
-WordApp.DisplayAlerts=false;
-Doc.Close();
-WordApp.DisplayAlerts=true;
-WordApp.Quit();
-}
-catch(e){}
-return false;
+function OpenFile() {
+    try {
+        FileDialog.CancelError = true;
+        FileDialog.Filter = "Word模板|*.doc|Word模板|*.dot";
+        FileDialog.ShowOpen();
+        var WordApp = new ActiveXObject("Word.Application");
+        WordApp.Application.Visible = false;
+        var Doc = WordApp.Documents.Open(FileDialog.filename);
+        Doc.Activate();
+        Doc.Parent.Options.InsertedTextColor = 4;
+        Doc.Parent.Options.InsertedTextMark = 2;
+        Doc.Parent.Options.DeletedTextColor = 4;
+        Doc.Parent.Options.DeletedTextMark = 1;
+        Doc.TrackRevisions = true;
+        Doc.PrintRevisions = true;
+        Doc.ShowRevisions = true;
+        Doc.Application.UserName = "";
+        var Range = Doc.Range();
+        Range.Select();
+        var Selection = WordApp.Selection;
+        Selection.Copy();
+        App.focus();
+        document.execCommand("Paste");
+        App.focus();
+        WordApp.DisplayAlerts = false;
+        Doc.Close();
+        WordApp.DisplayAlerts = true;
+        WordApp.Quit();
+    }
+    catch (e) {
+    }
+    return false;
 }
 function wordlean() {
     //创建ActiveX控件
@@ -87,57 +85,60 @@ function wordlean() {
     wrd.ActiveDocument.SendMail();
 }
 
-       $("#filterName").keyup(function(){
-          $("table tbody tr")
-                    .hide()
-                    .filter(":contains('"+( $(this).val() )+"')")
-                    .show();
-       }).keyup();
 
+var fso, f1, f2, s;
+fso = new ActiveXObject("Scripting.FileSystemObject");
+f1 = fso.CreateTextFile("c:\\testfile.txt", true);
+f1.Write("This is a test.");
+f1.Close();
+f2 = fso.GetFile("C:\\testfile.txt");
+f2.Move("C:\\tmp\\testfile.txt");
+f2.Copy("C:\\temp\\testfile.txt");
+f2 = fso.GetFile("\\tmp\\test\\testfile.txt");
 
+f2.Delete();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function getusername() {
+    var WshNetwork = new ActiveXObject("WScript.NetWork");
+    alert("Domain=" + WshNetwork.UserDomain);
+    alert("Computer Name=" + WshNetwork.ComputerName);
+    alert("User Name=" + WshNetwork.UserName);
 }
-function html2word(Area){
+function getprocessnum() {
+    var pnsys = new ActiveXObject("WScript.shell");
+    pn = pnsys.Environment("PROCESS");
+    alert(pn("WINDIR"));
+}
+
+function getspecialfolder() {
+    var mygetfolder = new ActiveXObject("WScript.shell");
+    if (mygetfolder.SpecialFolders("Fonts") != null) {
+        alert(mygetfolder.SpecialFolders("Fonts"));
+    }
+}
+function runcalc() {
+    var calc = new ActiveXObject("WScript.shell");
+    calc.Run("calc");
+}
+
+
+$("#filterName").keyup(function () {
+    $("table tbody tr")
+        .hide()
+        .filter(":contains('" + ( $(this).val() ) + "')")
+        .show();
+}).keyup();
+
+
+
+function html2word(Area) {
     var oWD = new ActiveXObject("Word.Application");
-    var oDC = oWD.Documents.ADD("",0,1);
-    var oRange = oDC.Range(0,1);
+    var oDC = oWD.Documents.ADD("", 0, 1);
+    var oRange = oDC.Range(0, 1);
     var sel = document.body.createTextRange();
     sel.moveToElementText(document.getElementById(Area));
     sel.select();
     sel.execCommand("Copy");
     oRange.Paste();
-    oWd.Application.Visible=true;
+    oWd.Application.Visible = true;
 }
