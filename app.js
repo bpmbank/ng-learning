@@ -27,4 +27,4 @@ myApp.directive("ensureUnique",function($http){
                         })
                 }
         }
-})
+});
