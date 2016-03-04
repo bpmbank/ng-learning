@@ -142,3 +142,42 @@ function html2word(Area) {
     oRange.Paste();
     oWd.Application.Visible = true;
 }
+
+function funSave() {
+    var id = $('#testText1')[0].value;
+    var name = $('#testText2')[0].value;
+    var str = '{mydata:[' + '{id:' + id + ',name:' + name + '}' + ']}';
+
+    str = "{MyData:[{id:'" + id + "',name:'" + name + "'}]}";
+
+//var json = eval('(' + str + ')');
+
+    var fso, tf;
+    try{
+        fso = new ActiveXObject("Scripting.FileSystemObject");
+        tf = fso.CreateTextFile("F:\\BaiduYun\\MyHtml\\DB_USER.json", true);
+        tf.WriteLine(str);
+    }catch(err){
+
+
+    }finally{
+        tf.Close();
+    }
+}
+
+function funSearch() {
+    var fso, ts, s;
+    var ForReading = 1;
+    try{
+        fso = new ActiveXObject("Scripting.FileSystemObject");
+        ts = fso.OpenTextFile("F:\\BaiduYun\\MyHtml\\DB_USER.json", ForReading);
+        s = ts.ReadLine();
+        var json = eval('(' + s + ')');
+        alert(json.MyData[0].id);
+    }catch(err){
+
+
+    }finally{
+        ts.Close();
+    }
+}

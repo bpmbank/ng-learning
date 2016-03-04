@@ -52,3 +52,27 @@ Interface.ensureImplements = function(object){
     }
 }
 
+var DynamicMap = new Interface('DynamicMap',['centerOnPoint','zoom','draw']);
+function displayRoute(mapInstance){
+    Interface.ensureImplements(mapInstance,DynamicMap);
+    mapInstance.centerOnPoint(12,34);
+    mapInstance.zoom(5);
+    mapInstance.draw();
+}
+
+
+var Book = function(newIsbn,newTitle,newAuthor){
+    //private attributes
+    var isbn,title,author;
+
+    //private method
+    function checkIsbn(isbn){
+
+    }
+
+    //privileged methods
+    this.getIsbn=function(){
+        return isbn;
+    }
+    
+}
