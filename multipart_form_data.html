@@ -1,0 +1,94 @@
+<html>
+<head>
+
+</head>
+<body>
+<form id="data">
+    <input type="hidden" name="id" value="123" readonly="readonly">
+    UserName:<input type="text" name="username" value=""><br/>
+    Profile Image:<input name="profileImg[]" type="file"><br/>
+    Display Image:<input name="displayImg[]" type="file"><br/>
+    <input type="file"  id="picFile" onchange="readFile(this)" />
+    <input type="submit" value="Submit">
+</form>
+<span><img id="previewimg" width=100 height=100 src="data:image/gif;base64,（此处填图片转成base64编码后的编码）"/></span>
+<script>
+    $("form#data").submit(function(event){
+        //disable the default form submission
+        event.preventDefault();
+        var formData = new FormData($(this)[0]);
+        $.ajax({
+            url:'formprocessing.php',
+            type:'POST',
+            data:formData,
+            async:false,
+            cache:false,
+            contentType:false,
+            processData:false,
+            success:function(returndata){
+                alert(returndata);
+            }
+        })
+
+    });
+    var convertImgDataToBlob = function (base64Data) {
+        var format = "image/jpeg";
+        var base64 = base64Data;
+        var code = window.atob(base64.split(",")[1]);
+        var aBuffer = new window.ArrayBuffer(code.length);
+        var uBuffer = new window.Uint8Array(aBuffer);
+        for(var i = 0; i < code.length; i++){
+            uBuffer[i] = code.charCodeAt(i) & 0xff ;
+        }
+        console.info([aBuffer]);
+        console.info(uBuffer);
+        console.info(uBuffer.buffer);
+        console.info(uBuffer.buffer==aBuffer); //true
+
+        var blob=null;
+        try{
+            blob = new Blob([uBuffer], {type : format});
+        }
+        catch(e){
+            window.BlobBuilder = window.BlobBuilder ||
+                    window.WebKitBlobBuilder ||
+                    window.MozBlobBuilder ||
+                    window.MSBlobBuilder;
+            if(e.name == 'TypeError' && window.BlobBuilder){
+                var bb = new window.BlobBuilder();
+                bb.append(uBuffer.buffer);
+                blob = bb.getBlob("image/jpeg");
+
+            }
+            else if(e.name == "InvalidStateError"){
+                blob = new Blob([aBuffer], {type : format});
+            }
+            else{
+
+            }
+        }
+        alert(blob.size);
+        return blob;
+
+    };
+    function readFile(obj){
+        var file = obj.files[0];
+        //判断类型是不是图片
+        if(!/image\/\w+/.test(file.type)){
+            alert("请确保文件为图像类型");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e){
+            alert(this.result); //就是base64
+            $("#previewimg").attr("src","data:image/gif;base64,"+this.result)
+
+        }
+    }
+
+
+</script>
+</body>
+</html>
+
