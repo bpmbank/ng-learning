@@ -74,5 +74,24 @@ var Book = function(newIsbn,newTitle,newAuthor){
     this.getIsbn=function(){
         return isbn;
     }
-    
+
+}
+function Person(name){
+    this.name=name;
+}
+function Author(name,books){
+    Person.call(this,name);
+    this.books=books;
+}
+Author.prototype=new Person();
+Author.prototype.constructor=Author;
+Author.prototype.getBooks=function(){
+    return this.books;
+}
+
+if(window.WebSocket){
+    console.log("This browser supports WebSocket");
+}
+else{
+    console.log("This browser doesn't support WebSocket");
 }
