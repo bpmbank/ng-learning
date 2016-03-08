@@ -96,4 +96,18 @@ else{
     console.log("This browser doesn't support WebSocket");
 }
 
+var mimetype = navigator.mimeTypes["application/npclipboard"];//这里面的key就是你的插件的type
+if(mimetype)
+{
+    var plugin = mimetype.enabledPlugin;
+
+    if(plugin)
+    {
+        document.writeln("已经安装");
+    }
+}
+else
+{
+    document.writeln("还未安装");
+}
 

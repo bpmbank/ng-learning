@@ -59,9 +59,23 @@
                  }
                 $scope.reset = function(){
                     $scope.startingEstimate = 0;
-                    
+
                 }
             });
+    angular.module('myApp',['ngRoute'])
+            .config(function($routeProvider){
+                $routeProvider.when('/',{
+                    templateUrl:'views/main.html',
+                    controller:'MainCtrl'
+                })
+                        .when(
+                                '/day/:id',
+                                {
+                                    templateUrl:'views/day.html',
+                                    controller:'DayCtrl'
+                                }
+                        )
+            })
 </script>
 </body>
 </html>
