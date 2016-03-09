@@ -1,3 +1,11 @@
+模块:
+angular.module()的参数列表
+name--模块的名称,字符串变量
+requirest--字符串数组
+
+angular.module('myApp',[])---定义模块,相当于AngularJS模块的setter方法,是用来定义模块的
+angular.module('myApp')---这个方法用于获取应用,相当于AngularJS模块的getter的方法,用来获取对模块的引用.
+
 五种方法与服务相关:
 factory() --创建服务
 service() --创建服务
