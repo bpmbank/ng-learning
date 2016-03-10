@@ -14,6 +14,20 @@ constant() --  创建服务实例，config可访问
 value()--创建服务实例，config不可访问
 decorator--装饰器，中间件和拦截器的作用
 
+何时应该使用Directive,Controller,Service?
+Directive(指令)
+Service就是单例对象在AngularJS中的一个别名.
+Controller纯粹的用来把service\依赖关系,以及其他对象串联在一起,然后通过scope把她们关联到view上.
+
+module.directive("addBookButton",['Book',function(Book){
+   return {
+   restrict:"A",
+   link:function(scope,element,attrs){
+       element.bind("click",function(){
+       Book.addBook({title:"Star Wars",author:"George Lucas"});
+       });
+   }}
+}]);
 
 x2js库
 bower install x2js
