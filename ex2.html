@@ -2,30 +2,53 @@
         <html ng-app="MyModule">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="">
+
 
 </head>
 <body>
 <div ng-controller="MyCtrl">
-    <drink water="{{pureWater}}"></drink>
+    Ctrl:
+    <br>
+    <input type="text" ng-model="pureWater">
+    <br>
+    Directive:
+    <br>
+    <drink water="pureWater"></drink>
+    <greeting greet="sayHello(name)"></greeting>
+    <greeting greet="sayHello(name)"></greeting>
+    <greeting greet="sayHello(name)"></greeting>
+
 </div>
 </body>
-<script src="angular.js"></script>
+<script src="bower_components/angular/angular.min.js"></script>
 <script>
     var myModule = angular.module("MyModule",[]);
     myModule.controller("MyCtrl",['$scope',function($scope){
          $scope.pureWater="纯净水";
-
+         $scope.sayHello=function(name){
+             alert("Hello"+name);
+         }
     }])
     myModule.directive("drink",function(){
         return {
             restrict:"AE",
             scope:{
-                water:"@"
+                water:"="
             },
-            template:"<div>{{water}}</div>"
+            template:'<input type="text" ng-model="water"/>'
         }
-    })
+    });
+    myModule.directive("greeting",function(){
+       return {
+           restrict:"AE",
+           scope:{
+               greet:"&"
+           },
+           template:'<input type="text" ng-model="userName"/><br/>'+
+           '<button class=""btn btn-default" ng-click="greet({name:userName})">Greeting</button><br/>'
+       }
+    });
+    //&用于在Controller与directive之间传递函数
 </script>
 //指令中,通过@实现指令与html页面元素关联
 //scope:{water:"@"}
