@@ -1,0 +1,35 @@
+<!doctype html>
+        <html ng-app="MyModule">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="">
+
+</head>
+<body>
+<div ng-controller="MyCtrl">
+    <drink water="{{pureWater}}"></drink>
+</div>
+</body>
+<script src="angular.js"></script>
+<script>
+    var myModule = angular.module("MyModule",[]);
+    myModule.controller("MyCtrl",['$scope',function($scope){
+         $scope.pureWater="纯净水";
+
+    }])
+    myModule.directive("drink",function(){
+        return {
+            restrict:"AE",
+            scope:{
+                water:"@"
+            },
+            template:"<div>{{water}}</div>"
+        }
+    })
+</script>
+//指令中,通过@实现指令与html页面元素关联
+//scope:{water:"@"}
+//-->link:function(scope,element,attrs){scope.water=attrs.water;}
+//www.tuicool.com/articles/aAveEj
+//http://www.cnblogs.com/shanyou/p/4085802.html
+</html>
