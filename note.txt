@@ -187,6 +187,7 @@ ng-attr-(suffix)
 
 17章 promise细节介绍
 ie浏览器下,window.location.href做的转向document.refererr是获取不到referer的
+jquery 与angular的兼容性测试
 
 非侵入性的Javascript:
 1.不是每个人的浏览器都支持Javascript,让每个人看到你所有的内容,并使用你的应用,而不需要在浏览器中执行代码
