@@ -1,4 +1,4 @@
-模块:
+﻿模块:
 angular.module()的参数列表
 name--模块的名称,字符串变量
 requirest--字符串数组
@@ -188,7 +188,9 @@ ng-attr-(suffix)
 17章 promise细节介绍
 ie浏览器下,window.location.href做的转向document.refererr是获取不到referer的
 jquery 与angular的兼容性测试
+table表格嵌套单元格错位问题，位置不对
 
+ace.min.css
 非侵入性的Javascript:
 1.不是每个人的浏览器都支持Javascript,让每个人看到你所有的内容,并使用你的应用,而不需要在浏览器中执行代码
 2.一些使用浏览器的人从事着不同地工作.那些使用屏幕阅读器和移动电话的视障人士就不能使用带Javascript的站点
