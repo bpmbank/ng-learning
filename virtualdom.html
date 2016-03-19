@@ -1,0 +1,56 @@
+<htmL>
+<head>
+
+</head>
+<body>
+
+</body>
+<script>
+    var element = {
+        tagName:'ul', //节点标签名
+        props:{  //Dom的属性,用一个对象存储键值对
+            id:'list'
+        },
+        children:[
+            {tagName:'li',props:{class:'item'},children:["item 1"]},
+            {tagName:'li',props:{class:'item'},children:["item 2"]},
+            {tagName:'li',props:{class:'item'},children:["item 3"]},
+        ]
+    }
+    function Element(tagName,props,children){
+        this.tagName=tagName;
+        this.props = props;
+        this.children = children;
+
+    }
+    Element.prototype.render = function(){
+        var el=document.createElement(this.tagName);
+        var props = this.props;
+        for(var propName in props){ //设置节点的DOM属性
+            var propValue = props[propName];
+            el.setAttribute(propName,propValue);
+        }
+        var children = this.children||[];
+        children.forEach(function(child){
+            var childEl = (child instanceof Element)?child.render():
+                    document.createTextNode(child);
+            el.appendChild(childEl);
+        })
+    }
+    var el = function(tagName,props,children){
+        return new Element(tagName,props,children);
+    }
+    var ul = el('ul',{id:'list'},[
+            el('li',{class:'item'},['Item 1']),
+            el('li',{class:'item'},['Item 2']),
+            el('li',{class:'item'},['Item 3'])
+    ]);
+
+
+</script>
+  <!--<ul id="list">-->
+      <!--<li class="item">Item1</li>-->
+      <!--<li class="item">Item2</li>-->
+      <!--<li class="item">Item3</li>-->
+  <!--</ul>-->
+</htmL>
