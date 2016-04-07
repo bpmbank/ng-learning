@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/angular2-starter.iml" filepath="$PROJECT_DIR$/.idea/angular2-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../enjoy/.idea/enjoy.iml" filepath="$PROJECT_DIR$/../enjoy/.idea/enjoy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../growth/.idea/growth.iml" filepath="$PROJECT_DIR$/../growth/.idea/growth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../OpenShop/.idea/shopping.iml" filepath="$PROJECT_DIR$/../OpenShop/.idea/shopping.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,9 @@
+xhr2 上传下载进度监控
+http://ju.outofmemory.cn/entry/92749
+xhr2 特点
+http://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html
+二进制流
+
+https://msdn.microsoft.com/zh-cn/library/windows/desktop/hh873181(v=vs.110).aspx
+介绍xhr2
+https://dev.opera.com/articles/xhr2/
