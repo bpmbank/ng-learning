@@ -203,4 +203,20 @@ http://www.angularjs.cn/A0a6  watch
 http://www.haomou.net/2014/08/11/2014_ionic_api/
 http://blog.csdn.net/i348018533/article/details/47258449#0-tsina-1-71108-397232819ff9a47a7b7e80a40613cfe1
 
+<<<<<<< HEAD
 [ie6,7中td和img之间有间隙](http://www.tuicool.com/articles/vEBnMvB)
+=======
+js跨域：
+HTTP访问控制（CORS）
+document.domain = '163.com';
+var iframe = document.createElement('iframe');
+iframe.src = 'http://wow.163.com/wower.html';
+iframe.style.display = 'none';
+document.body.appendChild(iframe);
+iframe.onload  = function(){
+var doc = iframe.contentDocument|| iframe.contentWindow.docment;
+}
+
+
+
+>>>>>>> 96baec29ce10654e2997df0c8a5928e5bfc919fa
